@@ -8,6 +8,7 @@ namespace UserManagementApp.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            // receive data from database
             IEnumerable<ListUser> users = new List<ListUser>()
             {
                 new ListUser()
@@ -26,7 +27,20 @@ namespace UserManagementApp.Controllers
         [HttpGet]
         public IActionResult Search()
         {
-            return View();
+			// receive data from database
+			IEnumerable<ListUser> users = new List<ListUser>()
+			{
+				new ListUser()
+				{
+					Id = 1,
+					FirstName = "firstname",
+					LastName = "firstname",
+					Email = "email@email.com",
+					Role = "user"
+				}
+			};
+
+			return View(users);
         }
     }
 }
