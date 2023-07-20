@@ -42,5 +42,11 @@ namespace UserManagementApp.Controllers
 
 			return View(users);
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
