@@ -24,7 +24,7 @@ namespace UserManagementApp.Models
         [Compare("Password", ErrorMessage = "Password and confirmation password do not match")]
         public string? ConfirmPassword { get; set; }
 
-        [Required]
+        [Required] //update if needed
         public string? Role { get; set; }
     }
 }
