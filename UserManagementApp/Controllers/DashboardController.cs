@@ -64,5 +64,21 @@ namespace UserManagementApp.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            EditUser model = new()
+            {
+                FirstName = "firstname",
+                LastName = "lastname",
+                Email = "email@mail.com",
+                Password = "password",
+                ConfirmPassword = "",
+                Role = "user"
+            };
+
+            return View(model);
+        }
     }
 }
