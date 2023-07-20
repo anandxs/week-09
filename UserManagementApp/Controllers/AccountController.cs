@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 
 namespace UserManagementApp.Controllers
 {
@@ -14,6 +15,16 @@ namespace UserManagementApp.Controllers
         public IActionResult Register()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            Console.WriteLine("hi");
+
+            await HttpContext.SignOutAsync("CookieAuth");
+
+            return View("Login");
         }
     }
 }
