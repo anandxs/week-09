@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UserManagementApp.Models;
 
 namespace UserManagementApp.Controllers
 {
