@@ -1,0 +1,41 @@
+﻿@model DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <hr />
+    <div class="container">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td class="fs-5 fw-bold">Id</td>
+                    <td class="fs-5">@Model.Id</td>
+                </tr>
+                <tr>
+                    <td class="fs-5 fw-bold">First Name</td>
+                    <td class="fs-5">@Model.FirstName</td>
+                </tr>
+                <tr>
+                    <td class="fs-5 fw-bold">Last Name</td>
+                    <td class="fs-5">@Model.LastName</td>
+                </tr>
+                <tr>
+                    <td class="fs-5 fw-bold">Email</td>
+                    <td class="fs-5">@Model.Email</td>
+                </tr>
+                <tr>
+                    <td class="fs-5 fw-bold">Password</td>
+                    <td class="fs-5">@Model.Password</td>
+                </tr>
+                <tr>
+                    <td class="fs-5 fw-bold">Role</td>
+                    <td class="fs-5">@Model.Role</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

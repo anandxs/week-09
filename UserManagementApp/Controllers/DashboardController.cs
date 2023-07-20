@@ -48,5 +48,21 @@ namespace UserManagementApp.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            DetailsModel model = new DetailsModel()
+            {
+                Id = 1,
+                FirstName = "firstname",
+                LastName = "lastname",
+                Email = "email@mail.com",
+                Password = "password",
+                Role = "admin"
+            };
+
+            return View(model);
+        }
     }
 }
