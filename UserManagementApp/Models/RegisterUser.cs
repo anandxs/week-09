@@ -5,9 +5,11 @@ namespace UserManagementApp.Models
     public class RegisterUser
     {
         [Required]
+        [Display(Name = "First Name")]
         public string? FirstName { get; set; }
 
         [Required]
+        [Display(Name = "Last Name")]
         public string? LastName { get; set; }
 
         [Required]
@@ -21,6 +23,7 @@ namespace UserManagementApp.Models
 
         [Required]
         [Display(Name = "Confirm password")]
+        [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Password and confirmation password do not match")]
         public string? ConfirmPassword { get; set; }
     }
