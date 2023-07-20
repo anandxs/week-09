@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace UserManagementApp.Models
 {
-    public class DetailsModel
+    public class DetailsUser
     {
         public int Id { get; set; }
 

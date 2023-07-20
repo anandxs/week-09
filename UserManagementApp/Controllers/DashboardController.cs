@@ -52,7 +52,7 @@ namespace UserManagementApp.Controllers
         [HttpGet]
         public IActionResult Details(int? id)
         {
-            DetailsModel model = new DetailsModel()
+            DetailsUser model = new DetailsUser()
             {
                 Id = 1,
                 FirstName = "firstname",
