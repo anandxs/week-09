@@ -80,5 +80,21 @@ namespace UserManagementApp.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            DeleteUser model = new()
+            {
+                Id = 1,
+                FirstName = "firstname",
+                LastName = "lastname",
+                Email = "email@mail.com",
+                Password = "password",
+                Role = "user"
+            };
+
+            return View(model);
+        }
     }
 }
