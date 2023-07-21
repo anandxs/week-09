@@ -10,6 +10,44 @@ namespace UserManagementApp.Services
 		private readonly string connectionString = "Server=localhost;Database=UserManangementDb;Trusted_Connection=True;TrustServerCertificate=True";
 		private SqlConnection connection = null!;
 
+		public IEnumerable<DeleteUser> GetAllUserDetails()
+		{
+			connection = new SqlConnection(connectionString);
+			string commandString = "select * from users;";
+			SqlCommand command = new SqlCommand(commandString, connection);
+			List<DeleteUser> users = new();
+
+			try
+			{
+				connection.Open();
+				SqlDataReader reader = command.ExecuteReader();
+				while (reader.Read())
+				{
+					DeleteUser user = new();
+					user.Id = (int)reader[0];
+					user.FirstName = (string)reader[1];
+					user.LastName = (string)reader[2];
+					user.Email = (string)reader[3];
+					user.Password = (string)reader[4];	
+					user.Role = (string)reader[5];
+
+					users.Add(user);
+				}
+
+				reader.Close();
+			}
+			catch (Exception e)
+			{
+                Console.WriteLine(e.Message);
+            }
+			finally
+			{
+				connection.Close();
+			}
+
+			return users;
+		}
+
 		public UserDbModel CheckCredentials(LoginUser model)
 		{
 			connection = new SqlConnection(connectionString);
@@ -31,6 +69,8 @@ namespace UserManagementApp.Services
 					dbModel.Password = (string)reader[3];
 					dbModel.Role = (string)reader[4];
 				}
+
+				reader.Close();
 			}
 			catch (Exception e)
 			{

@@ -1,36 +1,24 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserManagementApp.Models;
+using UserManagementApp.Services;
 
 namespace UserManagementApp.Controllers
 {
 	[Authorize(Roles = "Admin")]
 	public class DashboardController : Controller
 	{
-		[HttpGet]
+		private readonly UserDataManagementService _dbService;
+
+        public DashboardController(UserDataManagementService dbService)
+        {
+            _dbService = dbService;
+        }
+
+        [HttpGet]
 		public IActionResult Index()
 		{
-			// receive data from database
-			IEnumerable<ListUser> users = new List<ListUser>()
-			{
-				new ListUser()
-				{
-					Id = 1,
-					FirstName = "firstname",
-					LastName = "firstname",
-					Email = "email@email.com",
-					Role = "user"
-				},
-				new ListUser()
-				{
-					Id = 2,
-					FirstName = "last",
-					LastName = "first",
-					Email = "eml@ail.com",
-					Role = "admin"
-				}
-			};
-
+			IEnumerable<DeleteUser> users = _dbService.GetAllUserDetails();
 			return View(users);
 		}
 
@@ -45,30 +33,10 @@ namespace UserManagementApp.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-                // receive data from database
-                List<ListUser> users = new List<ListUser>()
-				{
-					new ListUser()
-					{
-						Id = 1,
-						FirstName = "firstname",
-						LastName = "firstname",
-						Email = "exail@email.com",
-						Role = "user"
-					},
-					new ListUser()
-					{
-						Id = 2,
-						FirstName = "asdf",
-						LastName = "fasdfsadfasdirstname",
-						Email = "emaisdfl@emasdfsil.com",
-						Role = "user"
-					},
-				};
-
-				model.Users = users
-					.Where(x => x.Email.Contains(model.SearchString));
-
+				IEnumerable<DeleteUser> allUsers = _dbService.GetAllUserDetails();
+				IEnumerable<DeleteUser> users = allUsers
+					.Where(x => x.Email!.Contains(model.SearchString));
+				model.Users = users;
 				return View(model);
 			}
 
