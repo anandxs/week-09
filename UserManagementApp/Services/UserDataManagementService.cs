@@ -137,5 +137,34 @@ namespace UserManagementApp.Services
 
 			return success;
 		}
+
+		public bool AddUserToDbWithRole(CreateUser user)
+		{
+			bool success = false;
+			connection = new SqlConnection(connectionString);
+			string commandString = "insert into users values (@first_name, @last_name, @email, @password, '@user');";
+			SqlCommand command = new SqlCommand(commandString, connection);
+			command.Parameters.AddWithValue("@first_name", user.FirstName);
+			command.Parameters.AddWithValue("@last_name", user.LastName);
+			command.Parameters.AddWithValue("@email", user.Email);
+			command.Parameters.AddWithValue("@password", user.Password);
+			command.Parameters.AddWithValue("@user", user.Role);
+
+			try
+			{
+				connection.Open();
+				success = 1 == command.ExecuteNonQuery();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+			}
+			finally
+			{
+				connection.Close();
+			}
+
+			return success;
+		}
 	}
 }

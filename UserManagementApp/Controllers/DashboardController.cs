@@ -54,14 +54,18 @@ namespace UserManagementApp.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (true/*logic to check if email exits already*/)
+				if (_dbService.EmailExistsAlready(model.Email!))
 				{
 					ModelState.AddModelError("EmailAlreadyExists", "Email is already being used");
 					return View(model);
 				}
-				//add to database
 
-				return RedirectToAction("Index");
+				bool success = _dbService.AddUserToDbWithRole(model);
+
+				if (success)
+					return RedirectToAction("Index");
+
+				//logic if failed to add
 			}
 
 			return View(model);
