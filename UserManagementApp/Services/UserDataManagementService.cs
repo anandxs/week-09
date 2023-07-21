@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Razor.Language.Intermediate;
-using Microsoft.Data.SqlClient;
-using System.Configuration;
+﻿using Microsoft.Data.SqlClient;
 using UserManagementApp.Models;
 
 namespace UserManagementApp.Services
@@ -28,7 +26,7 @@ namespace UserManagementApp.Services
 					user.FirstName = (string)reader[1];
 					user.LastName = (string)reader[2];
 					user.Email = (string)reader[3];
-					user.Password = (string)reader[4];	
+					user.Password = (string)reader[4];
 					user.Role = (string)reader[5];
 
 					users.Add(user);
@@ -38,8 +36,8 @@ namespace UserManagementApp.Services
 			}
 			catch (Exception e)
 			{
-                Console.WriteLine(e.Message);
-            }
+				Console.WriteLine(e.Message);
+			}
 			finally
 			{
 				connection.Close();
@@ -147,6 +145,55 @@ namespace UserManagementApp.Services
 			return exists;
 		}
 
+		public bool EmailExistsAlready(string newEmail, EditUser model)
+		{
+			connection = new SqlConnection(connectionString);
+			string emailCommand = "select email from users where id = @id";
+			SqlCommand command = new SqlCommand(emailCommand, connection);
+			command.Parameters.AddWithValue("@id", model.Id);
+			string currentEmail = String.Empty;
+			try
+			{
+				connection.Open();
+				SqlDataReader reader = command.ExecuteReader();
+				while (reader.Read())
+				{
+					currentEmail = (string)reader[0];
+				}
+			}
+			catch (Exception e)
+			{
+                Console.WriteLine(e.Message);
+            }
+			finally
+			{
+				connection.Close();
+			}
+
+			string checkCommand = "select count(*) from users where email = @newemail and email != @currmail";
+			command = new SqlCommand(checkCommand, connection);
+			command.Parameters.AddWithValue("@newemail", newEmail);
+			command.Parameters.AddWithValue("@currmail", currentEmail);
+			UserDbModel dbModel = new();
+			bool exists = false;
+
+			try
+			{
+				connection.Open();
+				exists = 1 == (int)command.ExecuteScalar();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+			}
+			finally
+			{
+				connection.Close();
+			}
+
+			return exists;
+		}
+
 		public bool AddUserToDb(RegisterUser user)
 		{
 			bool success = false;
@@ -163,7 +210,7 @@ namespace UserManagementApp.Services
 				connection.Open();
 				success = 1 == command.ExecuteNonQuery();
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Console.WriteLine(e.Message);
 			}
@@ -204,7 +251,7 @@ namespace UserManagementApp.Services
 			return success;
 		}
 
-		public bool DeleteUserById(int id)
+		public bool DeleteUser(int id)
 		{
 			connection = new SqlConnection(connectionString);
 			string commandString = "delete from users where id = @id";
@@ -219,9 +266,39 @@ namespace UserManagementApp.Services
 			}
 			catch (Exception e)
 			{
-                Console.WriteLine(e.Message);
-                throw;
+				Console.WriteLine(e.Message);
+				throw;
 			}
+			finally
+			{
+				connection.Close();
+			}
+
+			return success;
+		}
+
+		public bool UpdateUser(EditUser user)
+		{
+			connection = new SqlConnection(connectionString);
+			string commandString = "update users set first_name = @fname, last_name = @lname, email = @email, password = @password, role = @role where id = @id";
+			SqlCommand command = new SqlCommand(commandString, connection);
+			command.Parameters.AddWithValue("@fname", user.FirstName);
+			command.Parameters.AddWithValue("@lname", user.LastName);
+			command.Parameters.AddWithValue("@email", user.Email);
+			command.Parameters.AddWithValue("@password", user.Password);
+			command.Parameters.AddWithValue("@role", user.Role);
+			command.Parameters.AddWithValue("@id", user.Id);
+			bool success = false;
+
+			try
+			{
+				connection.Open();
+				success = 1 == command.ExecuteNonQuery();
+			}
+			catch (Exception e)
+			{
+                Console.WriteLine(e.Message);
+            }
 			finally
 			{
 				connection.Close();

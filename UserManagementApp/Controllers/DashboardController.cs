@@ -81,14 +81,14 @@ namespace UserManagementApp.Controllers
 		[HttpGet]
 		public IActionResult Edit(int? id)
 		{
+			DetailsUser temp = _dbService.GetDetailsById(id);
 			EditUser model = new()
 			{
-				FirstName = "firstname",
-				LastName = "lastname",
-				Email = "email@mail.com",
-				Password = "password",
-				ConfirmPassword = "",
-				Role = "user"
+				FirstName = temp.FirstName,
+				LastName = temp.LastName,
+				Email = temp.Email,
+				Password = temp.Password,
+				Role = temp.Role
 			};
 
 			return View(model);
@@ -99,14 +99,18 @@ namespace UserManagementApp.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (true/*check if email already exists*/)
+				if (_dbService.EmailExistsAlready(model.Email!, model))
 				{
 					ModelState.AddModelError("EmailAlreadyExists", "Email is already being used");
 					return View(model);
 				}
-				//update database
 
-				return RedirectToAction("Index");
+				bool success = _dbService.UpdateUser(model);
+
+				if (success)
+					return RedirectToAction("Index");
+
+				//logic if failed
 			}
 
 			return View(model);
@@ -123,7 +127,7 @@ namespace UserManagementApp.Controllers
 		[HttpPost]
 		public IActionResult Delete(int id)
 		{
-			bool success = _dbService.DeleteUserById(id);
+			bool success = _dbService.DeleteUser(id);
 			if (success)
 				return RedirectToAction("Index");
 
