@@ -1,3 +1,5 @@
+using UserManagementApp.Services;
+
 namespace UserManagementApp
 {
     public class Program
@@ -8,6 +10,7 @@ namespace UserManagementApp
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<UserDataManagementService>();
             builder.Services.AddAuthentication("CookieAuth")
                 .AddCookie("CookieAuth", options =>
                 options.Cookie.Name = "CookieAuthentication");

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserManagementApp.Models;
 
 namespace UserManagementApp.Controllers
 {
+	[Authorize(Roles = "Admin")]
 	public class DashboardController : Controller
 	{
 		[HttpGet]
