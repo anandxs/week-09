@@ -115,20 +115,7 @@ namespace UserManagementApp.Controllers
 		[HttpGet]
 		public IActionResult Delete(int? id)
 		{
-			if (id is null)
-			{
-				return View("Index");
-			}
-
-			DeleteUser model = new()
-			{
-				Id = 1,
-				FirstName = "firstname",
-				LastName = "lastname",
-				Email = "email@mail.com",
-				Password = "password",
-				Role = "user"
-			};
+			DetailsUser model = _dbService.GetDetailsById(id);
 
 			return View(model);
 		}
@@ -136,8 +123,9 @@ namespace UserManagementApp.Controllers
 		[HttpPost]
 		public IActionResult Delete(int id)
 		{
-			Console.WriteLine(id);
-			//delete record with given id
+			bool success = _dbService.DeleteUserById(id);
+			if (success)
+				return RedirectToAction("Index");
 
 			return RedirectToAction("Index");
 		}

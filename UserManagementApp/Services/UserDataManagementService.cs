@@ -179,7 +179,7 @@ namespace UserManagementApp.Services
 		{
 			bool success = false;
 			connection = new SqlConnection(connectionString);
-			string commandString = "insert into users values (@first_name, @last_name, @email, @password, '@user');";
+			string commandString = "insert into users values (@first_name, @last_name, @email, @password, @user);";
 			SqlCommand command = new SqlCommand(commandString, connection);
 			command.Parameters.AddWithValue("@first_name", user.FirstName);
 			command.Parameters.AddWithValue("@last_name", user.LastName);
@@ -195,6 +195,32 @@ namespace UserManagementApp.Services
 			catch (Exception e)
 			{
 				Console.WriteLine(e.Message);
+			}
+			finally
+			{
+				connection.Close();
+			}
+
+			return success;
+		}
+
+		public bool DeleteUserById(int id)
+		{
+			connection = new SqlConnection(connectionString);
+			string commandString = "delete from users where id = @id";
+			SqlCommand command = new SqlCommand(commandString, connection);
+			command.Parameters.AddWithValue("@id", id);
+			bool success = false;
+
+			try
+			{
+				connection.Open();
+				success = 1 == command.ExecuteNonQuery();
+			}
+			catch (Exception e)
+			{
+                Console.WriteLine(e.Message);
+                throw;
 			}
 			finally
 			{
