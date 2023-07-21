@@ -57,6 +57,24 @@ namespace UserManagementApp.Controllers
 			return View();
 		}
 
+		[HttpPost]
+		public IActionResult Create(CreateUser model)
+		{
+			if (ModelState.IsValid)
+			{
+				if (true/*logic to check if email exits already*/)
+				{
+					ModelState.AddModelError("EmailAlreadyExists", "Email is already being used");
+					return View(model);
+				}
+				//add to database
+
+				return RedirectToAction("Index");
+			}
+
+			return View(model);
+		}
+
 		[HttpGet]
 		public IActionResult Details(int? id)
 		{
@@ -94,10 +112,15 @@ namespace UserManagementApp.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				if (true/*check if email already exists*/)
+				{
+					ModelState.AddModelError("EmailAlreadyExists", "Email is already being used");
+					return View(model);
+				}
 				//update database
 
 				return RedirectToAction("Index");
-            }
+			}
 
 			return View(model);
 		}
