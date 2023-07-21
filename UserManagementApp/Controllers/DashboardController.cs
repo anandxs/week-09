@@ -128,6 +128,11 @@ namespace UserManagementApp.Controllers
 		[HttpGet]
 		public IActionResult Delete(int? id)
 		{
+			if (id is null)
+			{
+				return View("Index");
+			}
+
 			DeleteUser model = new()
 			{
 				Id = 1,
@@ -139,6 +144,15 @@ namespace UserManagementApp.Controllers
 			};
 
 			return View(model);
+		}
+
+		[HttpPost]
+		public IActionResult Delete(int id)
+		{
+            Console.WriteLine(id);
+            //delete record with given id
+
+            return RedirectToAction("Index");
 		}
 	}
 }
