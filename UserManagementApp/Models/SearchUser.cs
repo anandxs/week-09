@@ -4,7 +4,7 @@ namespace UserManagementApp.Models
 {
 	public class SearchUser
 	{
-		[Required]
+		[Required(ErrorMessage = "Cannot search for empty value")]
 		public string SearchString { get; set; } = null!;
 
         public IEnumerable<ListUser>? Users { get; set; }

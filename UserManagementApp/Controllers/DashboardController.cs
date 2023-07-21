@@ -35,20 +35,43 @@ namespace UserManagementApp.Controllers
 		[HttpGet]
 		public IActionResult Search()
 		{
-			// receive data from database
-			IEnumerable<ListUser> users = new List<ListUser>()
-			{
-				new ListUser()
-				{
-					Id = 1,
-					FirstName = "firstname",
-					LastName = "firstname",
-					Email = "email@email.com",
-					Role = "user"
-				}
-			};
+			return View();
+		}
 
-			return View(users);
+		[HttpPost]
+		public IActionResult Search(SearchUser model)
+		{
+			if (ModelState.IsValid)
+			{
+                Console.WriteLine(model.SearchString);
+                // receive data from database
+                List<ListUser> users = new List<ListUser>()
+				{
+					new ListUser()
+					{
+						Id = 1,
+						FirstName = "firstname",
+						LastName = "firstname",
+						Email = "exail@email.com",
+						Role = "user"
+					},
+					new ListUser()
+					{
+						Id = 2,
+						FirstName = "asdf",
+						LastName = "fasdfsadfasdirstname",
+						Email = "emaisdfl@emasdfsil.com",
+						Role = "user"
+					},
+				};
+
+				model.Users = users
+					.Where(x => x.Email.Contains(model.SearchString));
+
+				return View(model);
+			}
+
+			return View();
 		}
 
 		[HttpGet]
@@ -149,10 +172,10 @@ namespace UserManagementApp.Controllers
 		[HttpPost]
 		public IActionResult Delete(int id)
 		{
-            Console.WriteLine(id);
-            //delete record with given id
+			Console.WriteLine(id);
+			//delete record with given id
 
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 	}
 }
