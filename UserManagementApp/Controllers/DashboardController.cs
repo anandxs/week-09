@@ -3,30 +3,38 @@ using UserManagementApp.Models;
 
 namespace UserManagementApp.Controllers
 {
-    public class DashboardController : Controller
-    {
-        [HttpGet]
-        public IActionResult Index()
-        {
-            // receive data from database
-            IEnumerable<ListUser> users = new List<ListUser>()
-            {
-                new ListUser()
-                {
-                    Id = 1,
-                    FirstName = "firstname",
-                    LastName = "firstname",
-                    Email = "email@email.com",
-                    Role = "user"
-                }
-            };
+	public class DashboardController : Controller
+	{
+		[HttpGet]
+		public IActionResult Index()
+		{
+			// receive data from database
+			IEnumerable<ListUser> users = new List<ListUser>()
+			{
+				new ListUser()
+				{
+					Id = 1,
+					FirstName = "firstname",
+					LastName = "firstname",
+					Email = "email@email.com",
+					Role = "user"
+				},
+				new ListUser()
+				{
+					Id = 2,
+					FirstName = "last",
+					LastName = "first",
+					Email = "eml@ail.com",
+					Role = "admin"
+				}
+			};
 
-            return View(users);
-        }
+			return View(users);
+		}
 
-        [HttpGet]
-        public IActionResult Search()
-        {
+		[HttpGet]
+		public IActionResult Search()
+		{
 			// receive data from database
 			IEnumerable<ListUser> users = new List<ListUser>()
 			{
@@ -41,60 +49,73 @@ namespace UserManagementApp.Controllers
 			};
 
 			return View(users);
-        }
+		}
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
+		[HttpGet]
+		public IActionResult Create()
+		{
+			return View();
+		}
 
-        [HttpGet]
-        public IActionResult Details(int? id)
-        {
-            DetailsUser model = new DetailsUser()
-            {
-                Id = 1,
-                FirstName = "firstname",
-                LastName = "lastname",
-                Email = "email@mail.com",
-                Password = "password",
-                Role = "admin"
-            };
+		[HttpGet]
+		public IActionResult Details(int? id)
+		{
+			DetailsUser model = new DetailsUser()
+			{
+				Id = 1,
+				FirstName = "firstname",
+				LastName = "lastname",
+				Email = "email@mail.com",
+				Password = "password",
+				Role = "admin"
+			};
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpGet]
-        public IActionResult Edit(int? id)
-        {
-            EditUser model = new()
-            {
-                FirstName = "firstname",
-                LastName = "lastname",
-                Email = "email@mail.com",
-                Password = "password",
-                ConfirmPassword = "",
-                Role = "user"
-            };
+		[HttpGet]
+		public IActionResult Edit(int? id)
+		{
+			EditUser model = new()
+			{
+				FirstName = "firstname",
+				LastName = "lastname",
+				Email = "email@mail.com",
+				Password = "password",
+				ConfirmPassword = "",
+				Role = "user"
+			};
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpGet]
-        public IActionResult Delete(int? id)
-        {
-            DeleteUser model = new()
-            {
-                Id = 1,
-                FirstName = "firstname",
-                LastName = "lastname",
-                Email = "email@mail.com",
-                Password = "password",
-                Role = "user"
-            };
+		[HttpPost]
+		public IActionResult Edit(EditUser model)
+		{
+			if (ModelState.IsValid)
+			{
+				//update database
 
-            return View(model);
-        }
-    }
+				return RedirectToAction("Index");
+            }
+
+			return View(model);
+		}
+
+		[HttpGet]
+		public IActionResult Delete(int? id)
+		{
+			DeleteUser model = new()
+			{
+				Id = 1,
+				FirstName = "firstname",
+				LastName = "lastname",
+				Email = "email@mail.com",
+				Password = "password",
+				Role = "user"
+			};
+
+			return View(model);
+		}
+	}
 }
