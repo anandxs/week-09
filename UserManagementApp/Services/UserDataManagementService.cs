@@ -48,6 +48,43 @@ namespace UserManagementApp.Services
 			return users;
 		}
 
+		public DetailsUser GetDetailsById(int? id)
+		{
+			connection = new SqlConnection(connectionString);
+			string commandString = "select * from users where id = @id;";
+			SqlCommand command = new SqlCommand(commandString, connection);
+			command.Parameters.AddWithValue("@id", id);
+			DetailsUser detailsUser = null!;
+
+			try
+			{
+				connection.Open();
+				SqlDataReader reader = command.ExecuteReader();
+				while (reader.Read())
+				{
+					detailsUser = new DetailsUser();
+					detailsUser.Id = (int)reader[0];
+					detailsUser.FirstName = (string)reader[1];
+					detailsUser.LastName = (string)reader[2];
+					detailsUser.Email = (string)reader[3];
+					detailsUser.Password = (string)reader[4];
+					detailsUser.Role = (string)reader[5];
+				}
+
+				reader.Close();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+			}
+			finally
+			{
+				connection.Close();
+			}
+
+			return detailsUser;
+		}
+
 		public UserDbModel CheckCredentials(LoginUser model)
 		{
 			connection = new SqlConnection(connectionString);

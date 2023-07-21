@@ -74,16 +74,7 @@ namespace UserManagementApp.Controllers
 		[HttpGet]
 		public IActionResult Details(int? id)
 		{
-			DetailsUser model = new DetailsUser()
-			{
-				Id = 1,
-				FirstName = "firstname",
-				LastName = "lastname",
-				Email = "email@mail.com",
-				Password = "password",
-				Role = "admin"
-			};
-
+			DetailsUser model = _dbService.GetDetailsById(id);
 			return View(model);
 		}
 
