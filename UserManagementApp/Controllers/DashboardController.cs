@@ -43,7 +43,6 @@ namespace UserManagementApp.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-                Console.WriteLine(model.SearchString);
                 // receive data from database
                 List<ListUser> users = new List<ListUser>()
 				{
