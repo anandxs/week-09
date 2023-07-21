@@ -12,8 +12,10 @@ namespace UserManagementApp
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<UserDataManagementService>();
             builder.Services.AddAuthentication("CookieAuth")
-                .AddCookie("CookieAuth", options =>
-                options.Cookie.Name = "CookieAuthentication");
+                .AddCookie("CookieAuth", options => {
+                    options.Cookie.Name = "CookieAuthentication";
+                    options.Cookie.MaxAge = TimeSpan.FromMinutes(5);
+				});
 
             var app = builder.Build();
 

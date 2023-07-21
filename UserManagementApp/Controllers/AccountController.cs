@@ -28,7 +28,7 @@ namespace UserManagementApp.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				UserDbModel dbModel = _dbService.CheckCredentials(model);
+				DetailsUser dbModel = _dbService.CheckCredentials(model);
 
 				if (model.Email != dbModel.Email || model.Password != dbModel.Password)
 				{
@@ -46,7 +46,13 @@ namespace UserManagementApp.Controllers
 				ClaimsIdentity identity = new ClaimsIdentity(claims, "CookieAuth");
 				ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
-				await HttpContext.SignInAsync("CookieAuth", principal);
+				await HttpContext.SignInAsync(
+					"CookieAuth", 
+					principal,
+					new AuthenticationProperties()
+					{
+						IsPersistent = true
+					});
 
 				if (dbModel.Role is "Admin")
 				{

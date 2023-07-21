@@ -18,7 +18,7 @@ namespace UserManagementApp.Controllers
         [HttpGet]
 		public IActionResult Index()
 		{
-			IEnumerable<DeleteUser> users = _dbService.GetAllUserDetails();
+			IEnumerable<DetailsUser> users = _dbService.GetAllUserDetails();
 			return View(users);
 		}
 
@@ -33,8 +33,8 @@ namespace UserManagementApp.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				IEnumerable<DeleteUser> allUsers = _dbService.GetAllUserDetails();
-				IEnumerable<DeleteUser> users = allUsers
+				IEnumerable<DetailsUser> allUsers = _dbService.GetAllUserDetails();
+				IEnumerable<DetailsUser> users = allUsers
 					.Where(x => x.Email!.Contains(model.SearchString));
 				model.Users = users;
 				return View(model);
@@ -60,7 +60,7 @@ namespace UserManagementApp.Controllers
 					return View(model);
 				}
 
-				bool success = _dbService.AddUserToDbWithRole(model);
+				bool success = _dbService.AddUserToDb(model);
 
 				if (success)
 					return RedirectToAction("Index");

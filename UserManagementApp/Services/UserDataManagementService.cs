@@ -8,12 +8,12 @@ namespace UserManagementApp.Services
 		private readonly string connectionString = "Server=localhost;Database=UserManangementDb;Trusted_Connection=True;TrustServerCertificate=True";
 		private SqlConnection connection = null!;
 
-		public IEnumerable<DeleteUser> GetAllUserDetails()
+		public IEnumerable<DetailsUser> GetAllUserDetails()
 		{
 			connection = new SqlConnection(connectionString);
 			string commandString = "select * from users;";
 			SqlCommand command = new SqlCommand(commandString, connection);
-			List<DeleteUser> users = new();
+			List<DetailsUser> users = new();
 
 			try
 			{
@@ -21,7 +21,7 @@ namespace UserManagementApp.Services
 				SqlDataReader reader = command.ExecuteReader();
 				while (reader.Read())
 				{
-					DeleteUser user = new();
+					DetailsUser user = new();
 					user.Id = (int)reader[0];
 					user.FirstName = (string)reader[1];
 					user.LastName = (string)reader[2];
@@ -83,14 +83,14 @@ namespace UserManagementApp.Services
 			return detailsUser;
 		}
 
-		public UserDbModel CheckCredentials(LoginUser model)
+		public DetailsUser CheckCredentials(LoginUser model)
 		{
 			connection = new SqlConnection(connectionString);
 			string commandString = "select first_name, last_name, email, password, role from users where email=@email and password=@password;";
 			SqlCommand command = new SqlCommand(commandString, connection);
 			command.Parameters.AddWithValue("@email", model.Email);
 			command.Parameters.AddWithValue("@password", model.Password);
-			UserDbModel dbModel = new();
+			DetailsUser dbModel = new();
 
 			try
 			{
@@ -125,7 +125,7 @@ namespace UserManagementApp.Services
 			string commandString = "select count(*) from users where email = @email";
 			SqlCommand command = new SqlCommand(commandString, connection);
 			command.Parameters.AddWithValue("@email", email);
-			UserDbModel dbModel = new();
+			DetailsUser dbModel = new();
 			bool exists = false;
 
 			try
@@ -174,7 +174,7 @@ namespace UserManagementApp.Services
 			command = new SqlCommand(checkCommand, connection);
 			command.Parameters.AddWithValue("@newemail", newEmail);
 			command.Parameters.AddWithValue("@currmail", currentEmail);
-			UserDbModel dbModel = new();
+			DetailsUser dbModel = new();
 			bool exists = false;
 
 			try
@@ -222,7 +222,7 @@ namespace UserManagementApp.Services
 			return success;
 		}
 
-		public bool AddUserToDbWithRole(CreateUser user)
+		public bool AddUserToDb(CreateUser user)
 		{
 			bool success = false;
 			connection = new SqlConnection(connectionString);
