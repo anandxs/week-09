@@ -66,21 +66,24 @@ namespace UserManagementApp.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Register(RegisterUser user)
+		public IActionResult Register(RegisterUser model)
 		{
 			if (ModelState.IsValid)
 			{
-				if (true/*if email is already being used*/)
+				if (_dbService.EmailExistsAlready(model.Email!))
 				{
 					ModelState.AddModelError("EmailAlreadyExists", "Email is already being used");
-					return View(user);
+					return View(model);
 				}
-				//if not add all values to db
-
-				return RedirectToAction("Login");
+				
+				bool success = _dbService.AddUserToDb(model);
+				if (success)
+					return RedirectToAction("Login");
+				
+				//Logic for failing
 			}
 
-			return View(user);
+			return View(model);
 		}
 
 		[HttpGet]
