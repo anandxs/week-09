@@ -16,7 +16,8 @@ namespace UserManagementApp.Controllers
         }
 
         [HttpGet]
-		public IActionResult Index()
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Index()
 		{
 			IEnumerable<DetailsUser> users = _dbService.GetAllUserDetails();
 			return View(users);
