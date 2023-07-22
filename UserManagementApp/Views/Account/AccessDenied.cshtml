@@ -1,3 +1,7 @@
-﻿<h1 class="text-danger">Access Denied</h1>
+﻿@{
+	ViewData["Title"] = "Access Denied";
+}
+
+<h1 class="text-danger">Access Denied</h1>
 <p>You do not have permission to access the contents of this page!!!</p>
-<a class="btn btn-lg btn-warning" asp-controller="Home" asp-action="Index">Go Back To Home</a>
+<a class="btn btn-lg btn-outline-danger" asp-controller="Home" asp-action="Index">Go Back To Home</a>
