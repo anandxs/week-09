@@ -7,7 +7,6 @@ using UserManagementApp.Services;
 
 namespace UserManagementApp.Controllers
 {
-	[AllowAnonymous]
 	public class AccountController : Controller
 	{
 		private readonly UserDataManagementService _dbService;
@@ -20,6 +19,14 @@ namespace UserManagementApp.Controllers
         [HttpGet]
 		public IActionResult Login()
 		{
+			if (User.Identity!.IsAuthenticated)
+			{
+				if (User.IsInRole("Admin"))
+					return RedirectToAction("Index", "Dashboard");
+
+				return RedirectToAction("Index", "Home");
+			}
+
 			return View();
 		}
 
@@ -68,6 +75,14 @@ namespace UserManagementApp.Controllers
 		[HttpGet]
 		public IActionResult Register()
 		{
+			if (User.Identity!.IsAuthenticated)
+			{
+				if (User.IsInRole("Admin"))
+					return RedirectToAction("Index", "Dashboard");
+
+				return RedirectToAction("Index", "Home");
+			}
+
 			return View();
 		}
 
