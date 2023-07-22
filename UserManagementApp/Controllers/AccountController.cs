@@ -97,7 +97,7 @@ namespace UserManagementApp.Controllers
 		{
 			await HttpContext.SignOutAsync("CookieAuth");
 
-			return View("Login");
+			return RedirectToAction("Index", "Home");
 		}
 
 		[HttpGet]

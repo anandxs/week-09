@@ -14,7 +14,6 @@ namespace UserManagementApp
             builder.Services.AddAuthentication("CookieAuth")
                 .AddCookie("CookieAuth", options => {
                     options.Cookie.Name = "CookieAuthentication";
-                    options.Cookie.MaxAge = TimeSpan.FromMinutes(5);
 				});
 
             var app = builder.Build();
